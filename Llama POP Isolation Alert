@@ -1,0 +1,40 @@
+Llama POP Isolation Alert
+
+
+# Llama Alert Pop Isolation
+# 2024-05-01 : dwallace : Defining POP isolation Alert
+# Goal is to more readily identify catastrophic isolation event between
+# datacenter clusters and POPs.
+#
+# This will generate -->
+
+cluster_to_pop_isolation_alert_with_type = base_alert(
+    name="{{type}}_cluster_to_pop_isolation",
+    playbook_url="http://drl/llama_runbook",
+    query="""
+        ((llama/pinger/rack_availability_pct[_cluster, dst_cluster, node_id]{_task="llama_yss_pinger_prod", src_type="dbx", dst_type="pop", qos_level="default"}
+        | by avg n=1)
+        | rollup 1m avg | by count) - ((llama/pinger/rack_availability_pct[_cluster, dst_cluster, node_id]{_task="llama_yss_pinger_prod", src_type="dbx", dst_type="pop", qos_level="default"}
+        | by avg n=1)
+        | rollup 1m avg | by count) | threshold >=1 for=2m
+    """,
+    description="""
+        A PoP is experiencing 100% loss from DBX datacenter clusters to or from DBX Datacenters
+        More info can be found here:
+        https://phabricator.dropboxer.net/w/infrastructure/neteng/playbooks/llama_loss/
+    """,
+    priority="{{pri}}",
+)
+
+=====
+),
+    cluster_to_pop_isolation_alert_with_type.bind(
+        p="avg",
+        threshold="100",
+        duration="2m",
+        tag="cluster_to_pop_isolation_alert",
+        llama_kpi_tag="llama_pop_isolation",
+        pri="DEFAULT_PRI",
+        qos="default",
+        type="yss",
+

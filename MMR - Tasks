@@ -1,0 +1,43 @@
+MMR - Tasks
+
+Run the following from NetShell to collect the Established IPV4/IPV6 via @wood script
+
+> pr_peerings.txt; printf "\n\n==== Gathering Data From PRs ====\n\n"; for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null) ; do printf "\t    %-10s\n" $i; echo $i >> pr_peerings.txt; ssh $i 'show bgp summary | except 19679 | except Peer' 2>/dev/null | sort >> pr_peerings.txt; done; v4_estab=$(cat pr_peerings.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v4_down=$(cat pr_peerings.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); v6_estab=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v6_down=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); printf "\n\n======= PEERING DATA =======\n\n"; printf " %-18s %7s\n"  " IPv4 Established:" $v4_estab \ "IPv4 Down Peers:" $v4_down \ "IPv6 Established:" $v6_estab \ "IPv6 Down Peers:" $v6_down; printf "\n\n"
+
+Run this 2 times pre-decomm script...
+
+...will return ...
+======= PEERING DATA =======
+
+
+  IPv4 Established:    3850
+  IPv4 Down Peers:      104
+  IPv6 Established:    3311
+  IPv6 Down Peers:      122 
+
+  ...now run the Peering decom tool, it will log into each PR 
+  and identify any BGP peering sessions down longer than 5 weeks...
+
+  ...will return the following data per PR that has stale BGP sessions...
+
+  dwallace@iad4b-ro9-21b:~$ peer_manager decom
+Scanning for long down peers...
+Opening connection to ams1-pr01
+Closed connection to ams1-pr01
+Sessions to decom on ams1-pr01
++-----------+-----------+--------------------------+------------+---------------------------+-----------+
+|   device  | peer_type |         peer_ip          | remote_asn |      peer_description     | down_time |
++-----------+-----------+--------------------------+------------+---------------------------+-----------+
+| ams1-pr01 |   fabric  |      80.249.208.174      |   20326    |         teraswitch        |    8w5d   |
+| ams1-pr01 |   fabric  |      80.249.213.160      |   61135    | comnet_global_ip_backbone |   10w6d   |
+| ams1-pr01 |   fabric  |      193.239.117.49      |   43531    |          IX_REACH         |   10w2d   |
+| ams1-pr01 |   fabric  |  2001:7f8:1::a502:326:1  |   20326    |         teraswitch        |    8w5d   |
+| ams1-pr01 |   fabric  | 2001:7f8:1::a506:1135:1  |   61135    | comnet_global_ip_backbone |   10w6d   |
+| ams1-pr01 |   fabric  | 2001:7f8:13::a504:3531:1 |   43531    |          IX_REACH         |   10w2d   |
++-----------+-----------+--------------------------+------------+---------------------------+-----------+
+
+
+when this is complete, you will run the @wood tool again, those results will provide you with stats post decom tool...
+
+...combine pre and post @wood tool results for historical.  I created a Jira - April -MMR Peering Clean Up...NETENG-1466
+

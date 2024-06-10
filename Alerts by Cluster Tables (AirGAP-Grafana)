@@ -1,0 +1,13 @@
+Alerts by Cluster Tables (AirGAP-Grafana)
+
+SELECT activeSince as fired_time, device,component,name,description,silenced FROM alerts WHERE active=1 and DbxCluster = 'PDX3A' and DbxRole = 'PSW' ORDER BY activeSince DESC
+
+SELECT activeSince as fired_time, device,component,name,description,silenced FROM alerts WHERE active=1 and name not IN ("alert_ca_interface_outbound_discards", "alert_non_backbone_interface_discards", "alert_end_to_end_test") ORDER BY activeSince DESC
+
+SELECT tslast(metric) as `%`,device,component,description FROM portAggregatorBandwidth WHERE $_timeFilter ORDER BY `metric` ASC
+
+SELECT device,component,tslast(metric) as last,tsmax(metric) as max FROM ifInErrorRate WHERE (component REGEXP '(E|e)t.*') AND DbxRole NOT IN ("CA") AND $_timeFilter ORDER BY metric DESC LIMIT 10, 0
+
+SELECT activeAlertCount,device,component,description,boxDescr,address FROM activeAlertCount WHERE $_timeFilter ORDER BY DbxCluster ASC
+
+SELECT activeAlertCount FROM activeAlertCount WHERE DbxCluster = 'IAD8A' ORDER BY DbxCluster ASC

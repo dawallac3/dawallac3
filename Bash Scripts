@@ -1,0 +1,213 @@
+Bash Scripts
+==================Bash Script for PR ACL Collection for Audit=================================
+> pr_acls.txt; printf 
+"\n\n==== Gathering Qtrly Snapshot ACL Data From PRs ====\n\n";
+
+for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null) ;
+do
+    printf "\t  %-10s\n" $i;
+    echo $i >> pr_acls.txt;
+
+    ssh $i <<EOF 2>/dev/null | sort >> pr_acls.txt
+    show firewall filter PUBLIC-V4-IN | no-more
+    show configuration | find "filter PUBLIC-V4-IN" | no-more
+    show firewall filter PUBLIC-V4-OUT | no-more
+    show configuration | find "filter PUBLIC-V4-OUT" | no-more
+    show firewall filter PUBLIC-V6-IN | no-more
+    show configuration | find "filter PUBLIC-V6-IN" | no-more
+    show firewall filter PUBLIC-V6-OUT | no-more
+    show configuration | find "filter PUBLIC-V6-OUT" | no-more
+    show firewall filter CORP-V4-IN | no-more
+    show configuration | find "filter CORP-V4-IN" | no-more
+    show firewall filter CORP-V4-OUT | no-more
+    show configuration | find "filter CORP-V4-OUT" | no-more
+    show firewall filter CORP-V6-IN | no-more
+    show configuration | find "filter CORP-V6-IN" | no-more
+    show firewall filter CORP-V6-OUT | no-more
+    show configuration | find "filter CORP-V6-OUT" | no-more
+    show firewall filter AMAZON-V4-IN | no-more
+    show configuration | find "filter AMAZON-V4-IN" | no-more
+    show firewall filter AMAZON-V4-OUT | no-more
+    show configuration | find "filter AMAZON-V4-OUT" | no-more
+    show firewall filter AMAZON-V6-IN | no-more
+    show configuration | find "filter AMAZON-V6-IN" | no-more
+    show firewall filter AMAZON-V6-OUT | no-more
+    show configuration | find "filter AMAZON-V6-OUT" | no-more
+    show firewall filter SIGN-V4-IN | no-more
+    show configuration | find "filter SIGN-V4-IN" | no-more
+    show firewall filter SIGN-V4-OUT | no-more
+    show configuration | find "filter SIGN-V4-OUT" | no-more
+EOF
+done;
+
+for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null) ;
+do
+printf "\t  %-10s\n" $i;
+echo $i >> pr_acls.txt;
+
+PUBLIC-V4-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'PUBLIC-V4-IN'| wc -l);
+PUBLIC-V4-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'PUBLIC-V4-OUT'| wc -l);
+PUBLIC-V6-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'PUBLIC-V6-IN' | wc -l);
+PUBLIC-V6-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'PUBLIC-V6-OUT' | wc -l);
+CORP-V4-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'CORP-V4-IN' | wc -l);
+CORP-V4-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'CORP-V4-OUT' | wc -l);
+CORP-V6-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'CORP-V6-IN' | wc -l);
+CORP-V6-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'CORP-V6-OUT' | wc -l);
+AMAZON-V4-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'AMAZON-V4-IN' | wc -l);
+AMAZON-V4-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'AMAZON-V4-OUT' | wc -l);
+AMAZON-V6-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'AMAZON-V6-IN' | wc -l);
+AMAZON-V6-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'AMAZON-V6-OUT' | wc -l);
+SIGN-V4-IN=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'SIGN-V4-IN' | wc -l);
+SIGN-V4-OUT=$(cat pr_acls.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'SIGN-V4-OUT' | wc -l);
+
+
+printf "\n\n======= Qtrly ACL DATA from PRs =======\n\n";
+
+
+
+
+
+==========================================PR BGP MMR Bash Script================================
+
+> pr_peerings.txt; printf "\n\n==== Gathering Data From PRs ====\n\n"; for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null) ; do printf "\t    %-10s\n" $i; echo $i >> pr_peerings.txt; ssh $i 'show bgp summary | except 19679 | except Peer' 2>/dev/null | sort >> pr_peerings.txt; done; v4_estab=$(cat pr_peerings.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v4_down=$(cat pr_peerings.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); v6_estab=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v6_down=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); printf "\n\n======= PEERING DATA =======\n\n"; printf " %-18s %7s\n"  " IPv4 Established:" $v4_estab \ "IPv4 Down Peers:" $v4_down \ "IPv6 Established:" $v6_estab \ "IPv6 Down Peers:" $v6_down; printf "\n\n"
+
+
+
+
+
+
+=======================================================================
+nsot devices list -q 'monitor=alerted role=ca vendor=cisco' | nl
+
+host_ticketer lookup ticket -t RACK_MAINTENANCE | \
+grep -A9 ID | column -t | awk '{print $1, $2, $3}' | \
+paste - - - - - - - - - - | awk '{print $2, $6, $21, $12, $14}' | \
+column -t | grep -Ev 'ricky|26    ACKED|180   ACKED' | \
+sed 's/-[1][0-9]a/-ca01/g' | grep -w ACKED
+
+# I wrote this verbosely for myself:
+# First looks up ALL RACK_M tickets
+# Grabs the first 9 lines of output, which includes all ticket data + one hostname from the rack and it's status (ACKED, etc)
+# Formats into column because of some issue I ran across, I forgot
+# AWKS the first three fields, most only have two, like ID 123, but others are Created by $USER
+# paste spreads out the fields into one-line
+# awk grabs only the fields I'm interested in:
+# ID ### (# only), Status(ACKED/TRIGGERED), hostname sed rewritten to ca01, $USER, Created timestamp
+# column again to resolve some issue
+# Forcibly remove extraneous tickets under "ricky" as well as two ANCIENT tickets 26 and 180, sed rewrite hostname
+
+# Typically the output looks like this:
+# 9613  ACKED      pdx3a-rd20-ca01   bmccoy    2022-02-21T02:42:24Z
+# 9716  ACKED      iad8a-rd34-ca01   bmccoy    2022-02-23T19:32:07Z
+# 9811  ACKED      dfw5a-rl4-ca01    bmccoy    2022-02-24T18:04:31Z
+# Now it loses the host, and when I try to fix it, it doesn't work:
+# 9602  ACKED      --------  bmccoy    2022-02-21T02:42:12Z
+# 9716  ACKED      --------  bmccoy    2022-02-23T19:32:07Z
+# 9811  ACKED      --------  bmccoy    2022-02-24T18:04:31Z
+============================================================
+#!/bin/bash
+# MDBset: Analysis of distribution of blocking services / per service / per metro
+# Written by bmccoy@NEAT for TOR Upgrade Project/Server Identification/Classification
+# Designed as a start to identify the distribution of blocked services/hosts/per metro.
+# Core Metros are defined in array
+# HWClasses are defined in array
+# Blocked Services from MDB are defined in array
+
+metros=(dfw iad pdx sjc)
+hwClassList=(dash dory maven diego candido casper coco cruella lobo cartman bigelow homer axel scooby stimpy)
+blockSvcs=(search hwqual nginx kglb nagios cash zookeeper_coord taskrunner naoru database_ops shared_spaces nexus megaphone infra_dns installer super_admin_and_deployment apt_repos neteng esearchd_traffic repo_hosting dmr nsot team_lifecycle restorations phit file_presence clusterops yaps traffic_common showcase commit_queue zookeeper_common tor terraform_enterprise sharing_prod_shell secretsauce sandbox omega_shell ml_platform host_allocation comments2 bmcjump)
+
+# Time the loop due to the lengthy runtime operation - also validates baseline shell/mdb performance
+# Loops through Blocked Services, for each Blocked Service, loops through HwClasses and grabs the total count per service, per hwclass, per metro.
+#
+
+time for blockSvc in ${blockSvcs[@]}
+	do echo ${blockSvc^^}:" "
+		for hwclass in ${hwClassList[@]}
+			do echo -n $hwclass:" "
+			mdbset "service=$blockSvc hwclass=$hwclass dc_type=sjc -service=mp -((lifecycle=free +lifecycle=repair) +(lifecycle=decommissioned +lifecycle=reinstall +lifecycle=reinstalled) +yaps-simple-service +db (dc_type=sjc -hwcategory=pod -lifecycle=staged))" |\
+			awk -F- '{print $1}' | cut -c1-3 | sort | uniq -c | awk '{print $2":"$1}' |\
+			column -t | sort -rhk2 | paste - - - - - - - - - - - - - | column -t
+			echo -ne "\r"
+		done
+		echo "----------------"
+done | tee MDBSET_METRO_BLOCK_SERVICES_SUMMARY
+echo "cat MDBSET_METRO_BLOCK_SERVICES_SUMMARY"
+# Tee prints output to screen while also saving it to file format for post-analysis/parsing
+# Echo filename for quick operations
+===============================================================
+# This script queries HT (host_ticketer) for all open RACK_MAINT tickets, filtered down to NEAT members working on drains
+# The filtration was done to eliminate some false-positives when neighbor teams like netops opens a rack_maint ticket.
+# After grabbing the ticket list, the script iterates through the FQRACK names, querying HT for each FQRACK.
+# If there is a preceding ticket (opened before the rack_maint ticket), it is listed as BLOCKED, otherwise, Ready2Go.
+# In order for the RACK_MAINT ticket to successfully transition to ACKED state...
+# any preceding tickets to it, must be CLEARED.
+# Even if preceding tickets are in ACKED state, they may remain that way for days/weeks/months potentially.
+# Again, they must be cleared for the rack_maint ticket to transition to ACKED state fully (all hosts AND the ticket status = ACKED)
+# Otherwise it will stay in TRIGGERED state indefinitely, potentially --> until the other tickets are cleared
+
+Script:
+cat ./xHT_ticket_queue_precheck.sh
+lbreak="──────────────────────────────────────────────────────────────────────────────────────────"
+echo $lbreak
+host_ticketer lookup ticket -t RACK_MAINTENANCE -s | awk '{print $1, $3, $7, $4, $8}' | sed 's/-[0-9][0-9]a/-ca01/g' | grep -E 'bmccoy|nwinemiller|adler|dwallace|adadlani' | column -t > neat_tixsum
+for fqrack in $(cat neat_tixsum | awk -F' +' '{print $3}' | sed 's/-ca01//g')
+do
+	if [[ -z $(host_ticketer lookup ticket -sq fqrack=$fqrack | grep ID -A2 | grep RACK_MAINT) ]]
+then
+	echo $(cat neat_tixsum | grep -w $fqrack) "---> $fqrack is BLOCKED***"
+	echo $lbreak; host_ticketer lookup ticket -sq fqrack=$fqrack | grep ID -A10 | grep -Ev 'ID|------'
+	echo $lbreak
+else
+	echo $(cat neat_tixsum | grep -w $fqrack) "$fqrack is Ready2Go"
+	echo $lbreak
+	fi
+done
+
+Output:
+$ ./xHT_ticket_queue_precheck.sh
+──────────────────────────────────────────────────────────────────────────────────────────
+268881 TRIGGERED sjc8d-rb3-ca01 40 bmccoy sjc8d-rb3 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+268882 TRIGGERED sjc8d-re9-ca01 40 bmccoy sjc8d-re9 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+268883 TRIGGERED sjc8d-rb7-ca01 40 bmccoy sjc8d-rb7 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+297956 TRIGGERED sjc8d-rb13-ca01 40 bmccoy sjc8d-rb13 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+297957 TRIGGERED sjc15a-rh32-ca01 40 bmccoy sjc15a-rh32 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+297979 TRIGGERED sjc15a-rg7-ca01 40 bmccoy sjc15a-rg7 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+297980 TRIGGERED sjc15a-ri32-ca01 40 bmccoy sjc15a-ri32 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+307625 TRIGGERED sjc8d-rb12-ca01 40 bmccoy sjc8d-rb12 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+307653 TRIGGERED sjc8d-re11-ca01 40 bmccoy ---> sjc8d-re11 is BLOCKED***
+──────────────────────────────────────────────────────────────────────────────────────────
+303939  HW_FAILURE        ACKED      1 host(s) including sjc8d-re11-22a   hwhealth    2022-10-08 15:34:38 UTC  1 violation found: MEMORY (1)
+307653  RACK_MAINTENANCE  TRIGGERED  40 host(s) including sjc8d-re11-10a  bmccoy      2022-10-10 23:10:15 UTC  https://jira.dropboxer.net/browse/NETENG-984
+──────────────────────────────────────────────────────────────────────────────────────────
+307663 TRIGGERED sjc8d-rb11-ca01 40 bmccoy sjc8d-rb11 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+308189 TRIGGERED sjc15a-rh30-ca01 40 bmccoy sjc15a-rh30 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+308648 TRIGGERED pdx3a-rc19-ca01 40 bmccoy ---> pdx3a-rc19 is BLOCKED***
+──────────────────────────────────────────────────────────────────────────────────────────
+293764  NEEDS_REINSTALL   TRIGGERED  1 host(s) including pdx3a-rc19-26a   host_health  2022-10-03 12:33:24 UTC  Host (search) is failing 1 check: check_os_lifetime
+298929  NEEDS_REINSTALL   TRIGGERED  1 host(s) including pdx3a-rc19-24a   host_health  2022-10-05 23:48:26 UTC  Host (search) is failing 1 check: check_os_lifetime
+300675  NEEDS_REINSTALL   TRIGGERED  1 host(s) including pdx3a-rc19-11a   host_health  2022-10-06 18:25:44 UTC  Host (search) is failing 1 check: check_os_lifetime
+308648  RACK_MAINTENANCE  TRIGGERED  40 host(s) including pdx3a-rc19-10a  bmccoy       2022-10-11 15:18:07 UTC  https://jira.dropboxer.net/browse/NETENG-984
+──────────────────────────────────────────────────────────────────────────────────────────
+310169 TRIGGERED sjc15a-rg23-ca01 40 bmccoy sjc15a-rg23 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+310170 TRIGGERED sjc15a-rh7-ca01 40 bmccoy sjc15a-rh7 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+310211 TRIGGERED sjc15a-rd8-ca01 40 bmccoy sjc15a-rd8 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+310212 TRIGGERED sjc15a-rc9-ca01 40 bmccoy sjc15a-rc9 is Ready2Go
+──────────────────────────────────────────────────────────────────────────────────────────
+
+==========================================================================================
+
+

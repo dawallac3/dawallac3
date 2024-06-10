@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Initialize the output file
+> pr_sfp_inventory.txt;
+
+ printf "\n\n==== Gathering SFP Data From PRs ====\n\n"; for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null) ; do printf "\t    %-10s\n" $i; echo $i >> pr_sfp_inventory.txt; ssh $i 'show inventory hardware' 2>/dev/null | sort >> pr_sfp_inventory.txt; done; sfp_inventory=$(cat pr_sfp_inventory.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v4_down=$(cat pr_peerings.txt | grep -v -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); v6_estab=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -i Estab | wc -l); v6_down=$(cat pr_peerings.txt | grep -E "[0-9a-fA-F]{4}:" | grep -E -i 'Active|Idle|Connect' | wc -l); printf "\n\n======= PEERING DATA =======\n\n"; printf " %-18s %7s\n"  " IPv4 Established:" $v4_estab \ "IPv4 Down Peers:" $v4_down \ "IPv6 Established:" $v6_estab \ "IPv6 Down Peers:" $v6_down; printf "\n\n"

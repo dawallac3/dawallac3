@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Initialize the output file
+> pr_edge_acl_review.txt
+
+printf "\n\n==== Gathering Access List Data From PRs ====\n\n"
+
+# Loop through devices and gather ACL data
+for i in $(nsot devices list -q 'role=pr monitor=alerted' 2>/dev/null); do
+    printf "\t    %-10s\n" "$i"
+    echo "$i" >> pr_edge_acl_review.txt
+    ssh "$i" 'show firewall filter PUBLIC-V4-IN|no-more'
+    ssh "$i" 'show configuration | find "filter PUBLIC-V4-IN"|no-more'
+    ssh "$i" 'show firewall filter PUBLIC-V4-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter PUBLIC-V4-OUT"|no-more'
+    ssh "$i" 'show firewall filter PUBLIC-V6-IN|no-more'
+    ssh "$i" 'show configuration | find "filter PUBLIC-V6-IN"|no-more'
+    ssh "$i" 'show firewall filter PUBLIC-V6-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter PUBLIC-V6-OUT"|no-more'
+    ssh "$i" 'show firewall filter CORP-V4-IN|no-more'
+    ssh "$i" 'show configuration | find "filter CORP-V4-IN"|no-more'
+    ssh "$i" 'show firewall filter CORP-V4-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter CORP-V4-OUT"|no-more'
+    ssh "$i" 'show firewall filter CORP-V6-IN|no-more'
+    ssh "$i" 'show configuration | find "filter CORP-V6-IN"|no-more'
+    ssh "$i" 'show firewall filter CORP-V6-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter CORP-V6-OUT"|no-more'
+    ssh "$i" 'show firewall filter AMAZON-V4-IN|no-more'
+    ssh "$i" 'show configuration | find "filter AMAZON-V4-IN"|no-more'
+    ssh "$i" 'show firewall filter AMAZON-V4-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter AMAZON-V4-OUT"|no-more'
+    ssh "$i" 'show firewall filter AMAZON-V6-IN|no-more'
+    ssh "$i" 'show configuration | find "filter AMAZON-V6-IN"|no-more'
+    ssh "$i" 'show firewall filter AMAZON-V6-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter AMAZON-V6-OUT"|no-more'
+    ssh "$i" 'show firewall filter SIGN-V4-IN|no-more'
+    ssh "$i" 'show configuration | find "filter SIGN-V4-IN"|no-more'
+    ssh "$i" 'show firewall filter SIGN-V4-OUT|no-more'
+    ssh "$i" 'show configuration | find "filter SIGN-V4-OUT"|no-more' 2>/dev/null | sort >> pr_edge_acl_review.txt
+

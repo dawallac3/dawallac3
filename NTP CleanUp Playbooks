@@ -1,0 +1,222 @@
+NTP CleanUp Playbooks
+###############################################################################################
+###############################################################################################
+---
+# This playbook updates NTP servers on Arista EOS devices based on the device's metro location.
+#
+# How to invoke: ansible-playbook -e "devices=your_device_group batch_size=1" update_ntp_eos.yml
+
+- name: Update Arista EOS NTP Servers
+  hosts: "{{ devices }}"
+  gather_facts: false
+  connection: network_cli
+  serial: "{{ batch_size | default(1) }}"
+
+  tasks:
+    - name: Get metro with substring
+      set_fact:
+        metro: "{{ inventory_hostname[:3] }}"
+
+    - block:
+        - name: Get NTP servers based on metro
+          dbx_ntp:
+            metro: "{{ metro }}"
+          register: ntp_output
+
+        - name: Set NTP fact for the local device
+          set_fact:
+            ntp_servers: "{{ ntp_output.results }}"
+
+        - name: Display list of NTP servers
+          debug:
+            msg: "ntp_servers: {{ ntp_servers }}"
+
+    - name: Generate commands to remove existing NTP servers
+      set_fact:
+        ntp_remove_commands: "{{ ntp_remove_commands | default([]) + ['no ntp server ' + item] }}"
+      loop: "{{ ntp_servers | map('regex_search', '(\d{1,3}\.){3}\d{1,3}', '\\0') | list }}"
+
+    - name: Generate commands to add new NTP servers
+      set_fact:
+        ntp_add_commands: "{{ ntp_add_commands | default([]) + ['ntp server ' + item] }}"
+      loop: "{{ ntp_servers }}"
+
+    - name: Apply NTP configuration to the device
+      eos_config:
+        lines: "{{ ntp_remove_commands + ntp_add_commands }}"
+        save_when: always
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_remove_commands
+      when: ntp_remove_commands is defined
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_add_commands
+      when: ntp_add_commands is defined
+###################################################################################################
+###################################################################################################
+---
+# This playbook updates NTP servers on Cisco IOS-XR devices based on the device's metro location.
+#
+# How to invoke: ansible-playbook -e "devices=your_device_group batch_size=1" update_ntp_iosxr.yml
+
+- name: Update Cisco IOS-XR NTP Servers
+  hosts: "{{ devices }}"
+  gather_facts: false
+  connection: network_cli
+  serial: "{{ batch_size | default(1) }}"
+
+  tasks:
+    - name: Get metro with substring
+      set_fact:
+        metro: "{{ inventory_hostname[:3] }}"
+
+    - block:
+        - name: Get NTP servers based on metro
+          dbx_ntp:
+            metro: "{{ metro }}"
+          register: ntp_output
+
+        - name: Set NTP fact for the local device
+          set_fact:
+            ntp_servers: "{{ ntp_output.results }}"
+
+        - name: Display list of NTP servers
+          debug:
+            msg: "ntp_servers: {{ ntp_servers }}"
+
+    - name: Generate commands to remove existing NTP servers
+      set_fact:
+        ntp_remove_commands: "{{ ntp_remove_commands | default([]) + ['no ntp server ' + item] }}"
+      loop: "{{ ntp_servers | map('regex_search', '(\d{1,3}\.){3}\d{1,3}', '\\0') | list }}"
+
+    - name: Generate commands to add new NTP servers
+      set_fact:
+        ntp_add_commands: "{{ ntp_add_commands | default([]) + ['ntp server ' + item] }}"
+      loop: "{{ ntp_servers }}"
+
+    - name: Apply NTP configuration to the device
+      iosxr_config:
+        lines: "{{ ntp_remove_commands + ntp_add_commands }}"
+        commit: yes
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_remove_commands
+      when: ntp_remove_commands is defined
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_add_commands
+      when: ntp_add_commands is defined
+##################################################################################################
+##################################################################################################
+---
+# This playbook updates NTP servers on Cisco NX-OS devices based on the device's metro location.
+#
+# How to invoke: ansible-playbook -e "devices=your_device_group batch_size=1" update_ntp_nxos.yml
+
+- name: Update Cisco NX-OS NTP Servers
+  hosts: "{{ devices }}"
+  gather_facts: false
+  connection: network_cli
+  serial: "{{ batch_size | default(1) }}"
+
+  tasks:
+    - name: Get metro with substring
+      set_fact:
+        metro: "{{ inventory_hostname[:3] }}"
+
+    - block:
+        - name: Get NTP servers based on metro
+          dbx_ntp:
+            metro: "{{ metro }}"
+          register: ntp_output
+
+        - name: Set NTP fact for the local device
+          set_fact:
+            ntp_servers: "{{ ntp_output.results }}"
+
+        - name: Display list of NTP servers
+          debug:
+            msg: "ntp_servers: {{ ntp_servers }}"
+
+    - name: Generate commands to remove existing NTP servers
+      set_fact:
+        ntp_remove_commands: "{{ ntp_remove_commands | default([]) + ['no ntp server ' + item] }}"
+      loop: "{{ ntp_servers | map('regex_search', '(\d{1,3}\.){3}\d{1,3}', '\\0') | list }}"
+
+    - name: Generate commands to add new NTP servers
+      set_fact:
+        ntp_add_commands: "{{ ntp_add_commands | default([]) + ['ntp server ' + item] }}"
+      loop: "{{ ntp_servers }}"
+
+    - name: Apply NTP configuration to the device
+      nxos_config:
+        lines: "{{ ntp_remove_commands + ntp_add_commands }}"
+        save_when: always
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_remove_commands
+      when: ntp_remove_commands is defined
+
+    - name: Display final configuration commands
+      debug:
+        var: ntp_add_commands
+      when: ntp_add_commands is defined
+      ---
+- name: Update Juniper NTP Servers
+  hosts: "{{ devices }}"
+  roles:
+    - Juniper.junos
+  gather_facts: false
+  connection: netconf
+
+  tasks:
+    - name: Get metro with substring
+      set_fact:
+        metro: "{{ inventory_hostname[:3] }}"
+
+    - block:
+        - name: Get NTP servers based on metro
+          dbx_ntp:
+            metro: "{{ metro }}"
+          register: ntp_output
+
+        - name: Set NTP fact for the local device
+          set_fact:
+            ntp_servers: "{{ ntp_output.results }}"
+
+        - name: Display list
+          debug:
+            msg: "ntp_servers: {{ ntp_servers }}"
+
+    - name: Generate NTP commands
+      set_fact:
+        ntp_add_commands: >
+          {{
+            ['delete system ntp'] +
+            ntp_servers | map('regex_replace', '^(.*)$', 'set system ntp server \\1') | list
+          }}
+
+    - name: Push the configuration to the host
+      juniper_junos_config:
+        config_mode: 'exclusive'
+        load: 'merge'
+        lines: "{{ ntp_add_commands }}"
+        format: set
+        diff: true
+        check: true
+        commit: true
+      register: ntp_response
+
+    - name: Display response
+      debug:
+        var: ntp_response
+####################################################################################################
+####################################################################################################
+
+

@@ -1,0 +1,78 @@
+Ansible Playbooks/Snippets
+###########################################################
+ansible-cli playbook -f2 -e "devices=pdx4a-rc14-ca01 local_file='nxos.9.3.13.bin' dest_file='nxos.9.3.13.bin' use_bfs_proxy=true local_md5=e41f5a8934710935c4275e47c9a8665d batch_size=8" file_copy.yml 
+
+
+
+ansible-cli playbook -e "devices=" cisco_nxos_upgrade.yml -t issu_upgrade
+
+###########################################################
+---
+- name: Remove old code files from Cisco NX-OS devices
+  hosts: cisco_nxos_devices
+  gather_facts: no
+  vars:
+    old_code_files:
+      - nxos.7.0.3.I4.1.bin
+      - nxos.7.0.3.I4.7.bin
+  tasks:
+    - name: Check if old code files are present
+      nxos_command:
+        commands: dir bootflash:
+      register: dir_output
+
+    - name: Remove old code files
+      nxos_file:
+        src: "bootflash:{{ item }}"
+        state: absent
+      with_items: "{{ old_code_files }}"
+      when: dir_output.stdout[0] is search("{{ item }}")
+
+      ####################################################
+---
+- name: Cisco edit iCAM LPM Route Scale Monitoring
+  hosts: nxos_devices
+  connection: local
+
+  tasks:
+    - name: Get pre-conversion LPM Utilization
+      nxos_command:
+        commands:
+          - command: "show hardware capacity forwarding | i 'Percentage utilization of IPv4 LPM routes'"
+      register: lpm_util_pre
+
+     - name: Configure iCAM LPM Route Scale Monitoring
+       nxos_command:
+         commands:
+           - command: "icam monitor scale unicast-routing lpm-route-v4 limit 12288"
+
+     - name: Save Configuration
+       nxos_command:
+         commands:
+           - "copy running-config startup-config"
+
+     - name: Get post-conversion LPM Utilization
+      nxos_command:
+        commands:
+          - command: "show hardware capacity forwarding | i 'Percentage utilization of IPv4 LPM routes'"
+      register: lpm_util_post
+  ####################################################
+  - name: Get post-conversion LLDP neighbor info
+      nxos_command:
+        commands:
+          - command: "show lldp neighbors"
+  ####################################################
+
+  ####################################################
+
+  ####################################################
+
+  ####################################################
+
+  ####################################################
+
+  ####################################################
+
+  ####################################################
+
+  ####################################################_         

@@ -1,0 +1,45 @@
+NOT-37191
+
+AMS1 COGENT (AS174) 100G UPGRADE- CROSS CONNECT 1-233483165830
+
+1) new PAID and PAIDv6 session for Cogent AS174, 1x100G link
+2) new LAG and new BGP sessions
+2A) if you have questions about how to set up BGP, check existing LAG ae23 for Cogent 2x10G
+3) AMS1-PR01 ET-0/0/31
+4) ports allocation sheet has the circuit ID, cross connect and name of provider
+5) if BGP sessions do not come UP, let me know, I asked service delivery if we need to call the support line to have them Unshut BGP on COgent side, this is how they do it in USA but waiting on directions for Europe
+6) we will discuss Undrain timing after BGP is UP
+===
+
+set interfaces et-0/0/31 description "[AE26:B] [COGENT:V] [3-001649222:C] [PAID:T] [22788807:X] [174:A]"
+set interfaces et-0/0/31 gigether-options 802.3ad ae26
+set interfaces ae26 apply-groups PUBLIC-EDGE-ACLS
+set interfaces ae26 description "[COGENT:V] [PAID:T] [174:A]"
+set interfaces ae26 aggregated-ether-options lacp active
+set interfaces ae26 aggregated-ether-options lacp periodic fast
+set interfaces ae26 unit 0 description "[COGENT:V] [PAID:T] [174:A]"
+set interfaces ae26 unit 0 family inet address 149.6.129.89/29
+set interfaces ae26 unit 0 family inet6 address 2001:978:2:2C::1D/127
+set class-of-service interfaces ae26 apply-groups COS-EXTERNAL-PR
+
+set policy-options policy-statement STD-AS174-TE-OUT term DEFAULT-TE then community add AS174.COGENT-CUST-ONLY
+set policy-options community AS174.COGENT-CUST-ONLY members 174:991
+set policy-options as-path COGENT-CUST-ONLY "^174+$"
+
+
+set protocols bgp group PAID neighbor 149.6.129.88 description COGENT
+set protocols bgp group PAID neighbor 149.6.129.88 import STD-AS174-TE-IN
+set protocols bgp group PAID neighbor 149.6.129.88 export STD-AS174-TE-OUT
+set protocols bgp group PAID neighbor 149.6.129.88 family inet any prefix-limit maximum prefix_limit
+set protocols bgp group PAID neighbor 149.6.129.88 family inet any prefix-limit teardown 90
+set protocols bgp group PAID neighbor 149.6.129.88 family inet any prefix-limit teardown idle-timeout 120
+set protocols bgp group PAID neighbor 149.6.129.88 peer-as 174
+
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C description COGENTv6
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C import DRAIN-POLICY
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C import STD-AS174-TE-IN
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C export STD-AS174-TE-OUT
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C family inet6 any prefix-limit maximum prefix_limitv6
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C family inet6 any prefix-limit teardown 90
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C family inet6 any prefix-limit teardown idle-timeout 120
+set protocols bgp group PAID_v6 neighbor 2001:978:2:2C::1C peer-as 174

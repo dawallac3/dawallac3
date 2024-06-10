@@ -1,0 +1,324 @@
+Default Route Monitor
+
+Step 1		<<<In operational mode, list the log files on the system.>>>			
+
+dwallace@dfw1-dc01> file list /var/log/                            
+
+/var/log/:
+.snap/
+__policy_names_rpdc__
+__policy_names_rpdn__
+authd_libstats
+authd_profilelib
+authd_sdb.log
+bgp-trace
+bgp-trace.0.gz
+bgp-trace.1.gz
+bgp-trace.10.gz
+bgp-trace.11.gz
+bgp-trace.12.gz
+bgp-trace.13.gz
+bgp-trace.14.gz
+bgp-trace.15.gz
+bgp-trace.16.gz
+bgp-trace.17.gz
+bgp-trace.18.gz
+bgp-trace.2.gz
+bgp-trace.3.gz
+bgp-trace.4.gz
+bgp-trace.5.gz
+bgp-trace.6.gz
+bgp-trace.7.gz
+bgp-trace.8.gz
+bgp-trace.9.gz
+cert_validation
+chassisd
+chassisd.0.gz
+chassisd.1.gz
+chassisd.2.gz
+chassisd.3.gz
+chassisd.4.gz
+chassisd.5.gz
+chassisd.6.gz
+chassisd.7.gz
+chassisd.8.gz
+chassisd_snmp
+cosd
+cosd.0.gz
+cosd.1.gz
+cosd.2.gz
+cosd.3.gz
+coslib_cosinfo
+coslib_dfwc
+coslib_ifinfo
+coslib_l2cpd                            
+coslib_rpd
+cosmetics
+cosmetics.0.gz
+cosmetics.1.gz
+cosmetics.2.gz
+cosmetics.3.gz
+cosmetics.4.gz
+cosmetics.5.gz
+cosmetics.6.gz
+cosmetics.7.gz
+cosmetics.8.gz
+cosmetics.9.gz
+cscript.log
+dcd
+dcd.0.gz
+dcd.1.gz
+dcd_commit_check
+default-log-messages
+dfwc
+eccd
+fpc-0.spi_flash.0.log
+fpc-0.spi_flash.0.tgz
+fpc-1.spi_flash.0.log
+fpc-1.spi_flash.0.tgz
+fpc_poweron_seq.log
+gres-test-point
+gres-tp-tomcat
+install
+install.0.gz
+interactive-commands
+interactive-commands.0.gz
+interactive-commands.1.gz
+interactive-commands.2.gz
+interactive-commands.3.gz
+interactive-commands.4.gz
+interactive-commands.5.gz
+interactive-commands.6.gz
+interactive-commands.7.gz
+interactive-commands.8.gz
+interactive-commands.9.gz
+inventory
+isis.log
+isis.log.0.gz
+isis.log.1.gz
+isis.log.10.gz
+isis.log.11.gz
+isis.log.12.gz
+isis.log.13.gz                          
+isis.log.14.gz
+isis.log.15.gz
+isis.log.16.gz
+isis.log.17.gz
+isis.log.18.gz
+isis.log.2.gz
+isis.log.3.gz
+isis.log.4.gz
+isis.log.5.gz
+isis.log.6.gz
+isis.log.7.gz
+isis.log.8.gz
+isis.log.9.gz
+jam_chassisd
+jam_clksyncd
+jam_cosd
+jam_dcd
+jam_dfwd
+jam_l2ald
+jddosd
+jdhcpd_era_discover.log
+jdhcpd_era_discover.log.0
+jdhcpd_era_discover.log.1
+jdhcpd_era_discover.log.2
+jdhcpd_era_discover.log.3
+jdhcpd_era_solicit.log
+jdhcpd_era_solicit.log.0
+jdhcpd_era_solicit.log.1
+jdhcpd_era_solicit.log.2
+jdhcpd_era_solicit.log.3
+jdhcpd_era_v4_blq.log
+jdhcpd_era_v4_blq.log.0
+jdhcpd_era_v4_blq.log.1
+jdhcpd_era_v4_blq.log.2
+jdhcpd_era_v4_blq.log.3
+jdhcpd_era_v6_blq.log
+jdhcpd_era_v6_blq.log.0
+jdhcpd_era_v6_blq.log.1
+jdhcpd_era_v6_blq.log.2
+jdhcpd_era_v6_blq.log.3
+jdhcpd_profilelib
+jdhcpd_sdb.log
+jinsightd
+ksyncd
+lacp.log
+lacp.log.0.gz
+lacp.log.1.gz
+lacp.log.10.gz                          
+lacp.log.11.gz
+lacp.log.12.gz
+lacp.log.13.gz
+lacp.log.14.gz
+lacp.log.15.gz
+lacp.log.16.gz
+lacp.log.17.gz
+lacp.log.18.gz
+lacp.log.2.gz
+lacp.log.3.gz
+lacp.log.4.gz
+lacp.log.5.gz
+lacp.log.6.gz
+lacp.log.7.gz
+lacp.log.8.gz
+lacp.log.9.gz
+license
+license_subs_trace.log
+mastership
+mastership.0.gz
+mastership.1.gz
+mastership.2.gz
+mastership.3.gz
+mastership.4.gz
+mastership.5.gz
+mastership.6.gz
+mastership.7.gz
+mastership.8.gz
+messages
+messages.0.gz
+messages.1.gz
+messages.2.gz
+messages.3.gz
+messages.4.gz
+messages.5.gz
+messages.6.gz
+messages.7.gz
+messages.8.gz
+messages.9.gz
+mgd-api
+mpls
+mpls.0.gz
+mpls.1.gz
+mpls.2.gz
+mpls.3.gz
+mpls.4.gz
+mpls.5.gz
+mpls.6.gz                               
+mpls.7.gz
+mpls.8.gz
+mpls.9.gz
+mpls.statistics
+mpls.statistics.0.gz
+mpls.statistics.1.gz
+mpls.statistics.2.gz
+mpls.statistics.3.gz
+mpls.statistics.4.gz
+mpls.statistics.5.gz
+mpls.statistics.6.gz
+mpls.statistics.7.gz
+mpls.statistics.8.gz
+na-grpcd
+ntf-agent.log
+pfe_flow_stats.txt
+pfed_jdhcpd_trace.log
+pm_longterm.txt
+rsvp.log
+rsvp.log.0.gz
+rsvp.log.1.gz
+rsvp.log.10.gz
+rsvp.log.11.gz
+rsvp.log.12.gz
+rsvp.log.13.gz
+rsvp.log.14.gz
+rsvp.log.15.gz
+rsvp.log.16.gz
+rsvp.log.17.gz
+rsvp.log.18.gz
+rsvp.log.2.gz
+rsvp.log.3.gz
+rsvp.log.4.gz
+rsvp.log.5.gz
+rsvp.log.6.gz
+rsvp.log.7.gz
+rsvp.log.8.gz
+rsvp.log.9.gz
+sdk-vmmd
+shmlog/
+utx.lastlogin
+utx.log
+vjunos-install-current.log
+vjunos-install.log
+wtmp
+wtmp.0.gz
+wtmp.1.gz
+wtmp.2.gz                               
+wtmp.3.gz
+wtmp.4.gz
+=======
+
+Step 2		<<<View the contents of the rlog file of interest file.>>>
+
+dwallace@dfw1-dc01> file show /var/log/isis.log
+
+May  6 19:12:57 trace_on: Tracing to "/var/log/isis.log" started
+May  6 19:12:57.425763 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:12:57.627608     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:12:57.627653     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:12:57.627694     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:12:57.627707     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:13:16.834252 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:39.857385 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858495 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858675 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.060633     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:13:41.060675     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:13:41.060694     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:13:41.060709     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:13:41.424112 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.625890     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:13:41.625936     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:13:41.625952     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:13:41.625970     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:14:06.663204 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:15:06.746635 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.751987 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.752154 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+========
+
+Step 3		<<<file show /var/log/isis.log | match MPLS
+
+dwallace@dfw1-dc01> file show /var/log/isis.log | match MPLS  
+
+May  6 19:12:57.425763 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:16.834252 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:39.857385 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858495 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858675 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.424112 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:14:06.663204 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:15:06.746635 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.751987 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.752154 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:08.427433 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:08.858168 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:22.925823 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:23.926549 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:23.926683 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:24.423818 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:32.514995 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:18:01.979205 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+May  6 19:18:01.979413 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+May  6 19:18:02.425116 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+=========
+
+Step 4		<<<Real Time monitoring>>>
+
+dwallace@dfw1-dc01> monitor start isis.log | match MPLS 
+
+{master}
+dwallace@dfw1-dc01> 
+*** isis.log ***
+May  6 20:05:47.903007 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.903415 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.903568 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.929596 MPLS LSP besteffort-dfw1-dc01-pdx4-di02-2 not configured
+May  6 20:05:49.426169 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:06:01.909951 MPLS LSP besteffort-dfw1-dc01-dfw6-di01-2 not configured
+May  6 20:06:06.631952 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:06:24.470242 MPLS LSP besteffort-dfw1-dc01-pdx1-dc01-2 not configured
+========
+
+Step 5 		<<<Halt the monitor command by pressing Enter and typing monitor stop.>>>
+

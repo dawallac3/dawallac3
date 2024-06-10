@@ -1,0 +1,31 @@
+Notes ISSU 
+
+
+ansible-cli playbook -f2 -e "devices=pdx4a-rc14-ca01 local_file='nxos.9.3.13.bin' dest_file='nxos.9.3.13.bin' use_bfs_proxy=true local_md5=e41f5a8934710935c4275e47c9a8665d batch_size=5" file_copy.yml 
+
+ansible-cli playbook -e "devices=" cisco_nxos_upgrade.yml -t issu_upgrade
+
+
+
+dfw6a-rg14-ca01,dfw6a-rg15-ca01,dfw6a-rg16-ca01,dfw6a-rh4-ca01,dfw6a-rh5-ca01,dfw6a-rc11-ca01,dfw6a-rc15-ca01,dfw6a-rc3-ca01,dfw6a-rc5-ca01,dfw6a-rc6-ca01,dfw6a-rd11-ca01,dfw6a-rd13-ca01,dfw6a-rd14-ca01,dfw6a-rd15-ca01,dfw6a-rd16-ca01,dfw6a-rd3-ca01,dfw6a-rd5-ca01,dfw6a-re12-ca01,dfw6a-re13-ca01,dfw6a-re14-ca01,dfw6a-re15-ca01,dfw6a-re16-ca01,dfw6a-re3-ca01,dfw6a-re4-ca01,dfw6a-re5-ca01,dfw6a-re6-ca01,dfw6a-re7-ca01,dfw6a-re8-ca01,dfw6a-rf12-ca01,dfw6a-rf13-ca01,dfw6a-rf14-ca01,dfw6a-rf15-ca01,dfw6a-rf16-ca01,dfw6a-rf4-ca01,dfw6a-rf5-ca01,dfw6a-rf6-ca01,dfw6a-rf7-ca01,dfw6a-rf8-ca01
+
+
+Notes ISSU ,,,iad4b-ra1-ca01,iad4b-ra2-ca01,iad4b-ra3-ca01,iad4b-ra4-ca01,iad4b-ra5-ca01,iad4b-ra6-ca01,iad4b-ra7-ca01,iad4b-ra8-ca01,iad4b-ra9-ca01,iad4b-rb1-ca01,iad4b-rb2-ca01,iad4b-rb3-ca01,iad4b-rb4-ca01,iad4b-rb5-ca01,iad4b-rb6-ca01,iad4b-rb7-ca01,iad4b-rb8-ca01,iad4b-rb9-ca01,iad4b-rc1-ca01,iad4b-rc2-ca01,iad4b-rc3-ca01,iad4b-rc4-ca01,iad4b-rc5-ca01,iad4b-rc6-ca01,iad4b-rc7-ca01,iad4b-rc8-ca01,iad4b-rc9-ca01,iad4b-rd1-ca01,iad4b-rd2-ca01,iad4b-rd3-ca01,iad4b-rd4-ca01,iad4b-rd5-ca01,iad4b-rd6-ca01,iad4b-rd7-ca01,iad4b-rd8-ca01,iad4b-rd9-ca01,iad4b-re1-ca01,iad4b-re2-ca01,iad4b-re3-ca01,iad4b-re4-ca01,iad4b-re5-ca01,iad4b-re6-ca01,iad4b-re7-ca01,iad4b-re8-ca01,iad4b-re9-ca01,iad4b-rf1-ca01,iad4b-rf10-ca01,iad4b-rf2-ca01,iad4b-rf3-ca01,iad4b-rf4-ca01,iad4b-rf5-ca01,iad4b-rf6-ca01,iad4b-rf7-ca01,iad4b-rf8-ca01,iad4b-rg1-ca01,iad4b-rg2-ca01,iad4b-rg3-ca01,iad4b-rg4-ca01,iad4b-rg5-ca01,iad4b-rg6-ca01,iad4b-rg7-ca01,iad4b-rg8-ca01,iad4b-rg9-ca01,iad4b-rh1-ca01,iad4b-rh2-ca01,iad4b-rh3-ca01,iad4b-rh4-ca01,iad4b-rh5-ca01,iad4b-rh6-ca01,iad4b-rh7-ca01,iad4b-rh8-ca01,iad4b-rh9-ca01,iad4b-ri1-ca01,iad4b-ri2-ca01,iad4b-ri3-ca01,iad4b-ri4-ca01,iad4b-ri5-ca01,iad4b-ri6-ca01,iad4b-ri7-ca01,iad4b-ri8-ca01,iad4b-ri9-ca01,iad4b-rj1-ca01,iad4b-rj2-ca01,iad4b-rj3-ca01,iad4b-rj4-ca01,iad4b-rj5-ca01,iad4b-rj6-ca01,iad4b-rj7-ca01,iad4b-rj8-ca01,iad4b-rj9-ca01,iad4b-rk1-ca01,iad4b-rk2-ca01,iad4b-rk3-ca01,iad4b-rk4-ca01,iad4b-rk5-ca01,iad4b-rk6-ca01,iad4b-rk7-ca01,iad4b-rk8-ca01,iad4b-rk9-ca01,iad4b-rl1-ca01,iad4b-rl2-ca01,iad4b-rl3-ca01,iad4b-rl4-ca01,iad4b-rl5-ca01,iad4b-rl6-ca01,iad4b-rl7-ca01,iad4b-rl8-ca01,iad4b-rl9-ca01,iad4b-rm1-ca01,iad4b-rm10-ca01,iad4b-rm2-ca01,iad4b-rm3-ca01,iad4b-rm4-ca01,iad4b-rm5-ca01,iad4b-rm6-ca01,iad4b-rm7-ca01,iad4b-rm8-ca01,iad4b-rm9-ca01,iad4b-rn1-ca01,iad4b-rn10-ca01,iad4b-rn2-ca01,iad4b-rn3-ca01,iad4b-rn4-ca01,iad4b-rn5-ca01,iad4b-rn6-ca01,iad4b-rn7-ca01,iad4b-rn8-ca01,iad4b-rn9-ca01,iad4b-ro1-ca01,iad4b-ro10-ca01,iad4b-ro2-ca01,iad4b-ro3-ca01,iad4b-ro4-ca01,iad4b-ro5-ca01,iad4b-ro6-ca01,iad4b-ro7-ca01,iad4b-ro8-ca01,iad4b-ro9-ca01,iad4b-rp1-ca01,iad4b-rp10-ca01,iad4b-rp2-ca01,iad4b-rp3-ca01,iad4b-rp4-ca01,iad4b-rp5-ca01,iad4b-rp6-ca01,iad4b-rp7-ca01,iad4b-rp8-ca01,iad4b-rp9-ca01,iad4b-rq1-ca01,iad4b-rq10-ca01,iad4b-rq2-ca01,iad4b-rq3-ca01,iad4b-rq4-ca01,iad4b-rq5-ca01,iad4b-rq6-ca01,iad4b-rq7-ca01,iad4b-rq8-ca01,iad4b-rq9-ca01,iad4b-rr1-ca01,iad4b-rr10-ca01,iad4b-rr2-ca01,iad4b-rr3-ca01,iad4b-rr4-ca01,iad4b-rr5-ca01,iad4b-rr6-ca01,iad4b-rr7-ca01,iad4b-rr8-ca01,iad4b-rr9-ca01,iad4b-rs1-ca01,iad4b-rs10-ca01,iad4b-rs2-ca01,iad4b-rs3-ca01,iad4b-rs4-ca01,iad4b-rs5-ca01,iad4b-rs6-ca01,iad4b-rs7-ca01,iad4b-rs8-ca01,iad4b-rs9-ca01,iad4b-rt1-ca01,iad4b-rt10-ca01,iad4b-rt2-ca01,iad4b-rt3-ca01,iad4b-rt4-ca01,iad4b-rt5-ca01,iad4b-rt6-ca01,iad4b-rt7-ca01,iad4b-rt8-ca01,iad4b-rt9-ca01,iad4b-ru1-ca01,iad4b-ru10-ca01,iad4b-ru2-ca01,iad4b-ru3-ca01,iad4b-ru4-ca01,iad4b-ru5-ca01,iad4b-ru6-ca01,iad4b-ru7-ca01,iad4b-ru8-ca01,iad4b-ru9-ca01,iad4b-rv1-ca01,iad4b-rv10-ca01,iad4b-rv2-ca01,iad4b-rv3-ca01,iad4b-rv4-ca01,iad4b-rv5-ca01,iad4b-rv6-ca01,iad4b-rv7-ca01,iad4b-rv8-ca01,iad4b-rv9-ca01,iad4b-rw1-ca01,iad4b-rw2-ca01,iad4b-rw3-ca01,iad4b-rw4-ca01,iad4b-rw5-ca01,iad4b-rw6-ca01,iad4b-rw7-ca01,iad4b-rw8-ca01,iad4b-rw9-ca01,iad4b-rx1-ca01,iad4b-rx2-ca01,iad4b-rx3-ca01,iad4b-rx4-ca01,iad4b-rx5-ca01,iad4b-rx6-ca01,iad4b-rx7-ca01,iad4b-rx8-ca01,iad4b-rx9-ca01
+
+iad8a-ra1-ca01,iad8a-ra10-ca01,iad8a-ra11-ca01,iad8a-ra12-ca01,iad8a-ra13-ca01,iad8a-ra14-ca01,iad8a-ra16-ca01,iad8a-ra17-ca01,iad8a-ra18-ca01,iad8a-ra19-ca01,iad8a-ra2-ca01,iad8a-ra20-ca01,iad8a-ra21-ca01,iad8a-ra22-ca01,iad8a-ra23-ca01,iad8a-ra24-ca01,iad8a-ra25-ca01,iad8a-ra26-ca01
+
+
+pdx4a-rc14-ca01              
+pdx4a-rc15-ca01        
+pdx4a-rc18-ca01        
+pdx4a-rc19-ca01        
+pdx4a-rc20-ca01        
+pdx4a-rc21-ca01        
+pdx4a-rc22-ca01        
+pdx4a-rc24-ca01        
+pdx4a-rc25-ca01        
+pdx4a-rc26-ca01        
+pdx4a-rc27-ca01        
+pdx4a-rc28-ca01        
+pdx4a-rc29-ca01             
+

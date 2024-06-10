@@ -1,0 +1,59 @@
+SHELL Commands
+
+pdx-net-tools: "tsh ssh -A --cluster=dbx-pdx yss-deployment=net-tools-onprem"
+iad-net-tools: "tsh ssh -A --cluster=dbx-iad yss-deployment=net-tools-onprem"
+dfw-net-tools: "tsh ssh -A --cluster=dbx-dfw yss-deployment=net-tools-onprem"
+
+host_ticketer create -t rack_maintenance -j https://jira.dropboxer.net/browse/NETENG-1424 --rack pdx3a-rx4
+dwallace@pdx3a-ra8-15a:~$ host_ticketer clear ABC123
+
+bzl build //neteng/ansible:ansible-cli
+
+bzl push //neteng/ansible:ansible-cli iad4b-ro9-21b:/home/dwallace/bzl_ansible_dev
+
+
+cd ansible_dev
+./ ansible _playbook
+====================
+ANSIBLE Syntax
+ansible-cli playbook -f2 -e "devices=pdx4a-rc14-ca01 local_file='nxos.9.3.13.bin' dest_file='nxos.9.3.13.bin' use_bfs_proxy=true local_md5=e41f5a8934710935c4275e47c9a8665d batch_size=8" file_copy.yml 
+
+
+ansible-cli playbook -e "devices=" cisco_nxos_upgrade.yml -t issu_upgrade
+====================
+MDB commands
+
+====================
+NSOT queries
+
+DFW
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=1 metro=dfw"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=2 metro=dfw"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=3 metro=dfw"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=4 metro=dfw"
+
+===
+IAD
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=1 metro=iad"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=2 metro=iad"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=3 metro=iad"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=4 metro=iad"
+
+===
+PDX
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=1 metro=pdx"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=2 metro=pdx"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=3 metro=pdx"
+
+nsot devices list -q "model=N3K-C3264C monitor=alerted  spine=4 metro=pdx"

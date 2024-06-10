@@ -1,0 +1,93 @@
+Debug PAger Duty QoS Alert
+
+dwallace@lax2-pr01> show chassis hardware 
+Hardware inventory:
+Item             Version  Part number  Serial number     Description
+Chassis                                DP279             PTX1000
+Pseudo CB 0     
+Routing Engine 0          BUILTIN      BUILTIN           RE-PTX1000
+FPC 0            REV 44   750-065110   BCAA7092          PTX1000
+  CPU                     BUILTIN      BUILTIN           FPC CPU
+  PIC 0                   BUILTIN      BUILTIN           288X10GE/72X40GE/24X100GE
+    Xcvr 0       REV 02   740-054050   1FCPB43206J       QSFP+-4X10G-LR
+    Xcvr 1       REV 02   740-054050   1FCPB4310SN       QSFP+-4X10G-LR
+    Xcvr 2       REV 02   740-054050   1FCPB4310LQ       QSFP+-4X10G-LR
+    Xcvr 3       REV 02   740-054050   1FCPB4320S0       QSFP+-4X10G-LR
+    Xcvr 8       REV 02   740-054050   1FCPB43205Y       QSFP+-4X10G-LR
+    Xcvr 11      REV 01   740-058732   3203718229        QSFP-100GBASE-LR4
+    Xcvr 12      REV 02   740-054050   1FCPB42507V       QSFP+-4X10G-LR
+    Xcvr 17               NON-JNPR     3220410997        QSFP-100GBASE-LR4
+    Xcvr 19      REV 01   740-058732   3220410986        QSFP-100GBASE-LR4
+    Xcvr 24      REV 02   740-054050   1FCPB4310UN       QSFP+-4X10G-LR
+    Xcvr 25      REV 02   740-054050   1FCPB43205K       QSFP+-4X10G-LR
+    Xcvr 26      REV 02   740-054050   1FCPB43107J       QSFP+-4X10G-LR
+    Xcvr 37      REV 01   740-061405   qpbs3424          QSFP-100G-SR4-T2
+    Xcvr 41      REV 01   740-061405   1ECQ11470RY       QSFP-100G-SR4-T2
+    Xcvr 42      REV 02   740-054050   1FCPB4320SB       QSFP+-4X10G-LR
+    Xcvr 43      REV 02   740-054050   1FCPB4310N3       QSFP+-4X10G-LR
+    Xcvr 47               NON-JNPR     3173621923        QSFP-100GBASE-LR4
+    Xcvr 49      REV 01   740-061405   qpbs3426          QSFP-100G-SR4-T2
+    Xcvr 53      REV 01   740-061405   qpbs3427          QSFP-100G-SR4-T2
+    Xcvr 54      REV 02   740-054050   1FCPB43207T       QSFP+-4X10G-LR
+    Xcvr 55      REV 02   740-054050   1FCPB43107E       QSFP+-4X10G-LR
+    Xcvr 59      REV 01   740-058732   3202214351        QSFP-100GBASE-LR4
+    Xcvr 61      REV 01   740-061405   qpbs3428          QSFP-100G-SR4-T2
+    Xcvr 65      REV 01   740-061405   qpbs3429          QSFP-100G-SR4-T2
+    Xcvr 67      REV 01   740-061405   QPBS4323          QSFP-100G-SR4-T2
+    Xcvr 71      REV 01   740-061405   QPBS4322          QSFP-100G-SR4-T2
+  Mezz           REV 12   711-064764   BCAD4132          Mezz Board 36X40GE
+Power Supply 0   REV 07   740-054405   1EDN9479370       AC AFO 1600W PSU
+Power Supply 1   REV 07   740-054405   1EDN9479376       AC AFO 1600W PSU
+Power Supply 2   REV 07   740-054405   1EDN9479389       AC AFO 1600W PSU
+Power Supply 3   REV 07   740-054405   1EDN9479362       AC AFO 1600W PSU
+Fan Tray 0                                               PTX1000 Fan Tray 0, Front to Back Airflow - AFO
+Fan Tray 1                                               PTX1000 Fan Tray 1, Front to Back Airflow - AFO
+Fan Tray 2                                               PTX1000 Fan Tray 2, Front to Back Airflow - AFO
+=====
+AE3=40GB.   description "[COX:V] [PRIV:T] [22773:A]"
+AE5=140GB	description "[EQUINIX:V] [FAB:T]"
+AE6=40GB	description "[CHARTER:V] [PRIV:T] [20115:A]"
+AE7=100GB   description "[COMCAST:V] [PAID:T] [7922:A]"
+AE8=100GB.  description "[LEVEL3:V] [TS:T] [3356:A]"
+AE9=100GB.  description "[CHARTER:V] [PRIV:T] [20115:A]"
+AE10=40GB.  description "[COX:V] [PRIV:T] [22773:A] [TEMP:N]"
+AE12=100GB. description "[TELIA:V] [TS:T] [1299:A]"
+AE14=40GB.  description "[VERIZON:V] [PAID:T] [701:A]"
+AE15=40GB.  description "[EQUINIX:V] [ECX:T]"
+AE21=10GB.  description "[COGENT:V] [PAID:T] [174:A]"
+=====
+AE0=200GB.  description "[LAX2-BB01:D] [AE0:I] [TP:T] [FAC:S] [ICA:M
+AE1=200GB.  description "[LAX2-BB02:D] [AE1:I] [TP:T] [FAC:S] [ICA:M]"
+AE2=400GB.  description "[LAX2-EA01:D] [AE2:I] [TP:T] [FAC:S]"
+=====
+dwallace@lax2-pr01> show class-of-service forwarding-class              
+Forwarding class                       ID      Queue  Restricted queue  Fabric priority  Policing priority   SPU priority
+  best-effort                           0       0          0             low                normal            low    
+  default                               1       1          1             high               normal            low    
+  premium                               2       2          2             high               normal            low    
+  network-control                       3       3          3             high               normal            low
+=====
+dwallace@lax2-pr01> show chassis hardware | match 100Gb   
+    Xcvr 11      REV 01   740-058732   3203718229        QSFP-100GBASE-LR4
+    Xcvr 17               NON-JNPR     3220410997        QSFP-100GBASE-LR4
+    Xcvr 19      REV 01   740-058732   3220410986        QSFP-100GBASE-LR4
+    Xcvr 47               NON-JNPR     3173621923        QSFP-100GBASE-LR4
+    Xcvr 59      REV 01   740-058732   3202214351        QSFP-100GBASE-LR4
+=====
+dwallace@lax2-pr01> show chassis hardware | match 10G     
+  PIC 0                   BUILTIN      BUILTIN           288X10GE/72X40GE/24X100GE
+    Xcvr 0       REV 02   740-054050   1FCPB43206J       QSFP+-4X10G-LR
+    Xcvr 1       REV 02   740-054050   1FCPB4310SN       QSFP+-4X10G-LR
+    Xcvr 2       REV 02   740-054050   1FCPB4310LQ       QSFP+-4X10G-LR
+    Xcvr 3       REV 02   740-054050   1FCPB4320S0       QSFP+-4X10G-LR
+    Xcvr 8       REV 02   740-054050   1FCPB43205Y       QSFP+-4X10G-LR
+    Xcvr 12      REV 02   740-054050   1FCPB42507V       QSFP+-4X10G-LR
+    Xcvr 24      REV 02   740-054050   1FCPB4310UN       QSFP+-4X10G-LR
+    Xcvr 25      REV 02   740-054050   1FCPB43205K       QSFP+-4X10G-LR
+    Xcvr 26      REV 02   740-054050   1FCPB43107J       QSFP+-4X10G-LR
+    Xcvr 42      REV 02   740-054050   1FCPB4320SB       QSFP+-4X10G-LR
+    Xcvr 43      REV 02   740-054050   1FCPB4310N3       QSFP+-4X10G-LR
+    Xcvr 54      REV 02   740-054050   1FCPB43207T       QSFP+-4X10G-LR
+    Xcvr 55      REV 02   740-054050   1FCPB43107E       QSFP+-4X10G-LR
+    =====
+

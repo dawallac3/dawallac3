@@ -1,0 +1,4 @@
+Optical Access
+
+ssh -o UserKnownHostsFile=/dev/null -o PubkeyAcceptedKeyTypes=ssh-rsa -o HostKeyAlgorithms=rsa-sha2-512 -i /srv/secrets/ssh/private/netconf.id_rsa admin@dfw1-mt09
+

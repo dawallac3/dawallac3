@@ -1,0 +1,40 @@
+SPLUNK Queries
+
+Search Queries for MT device logs
+
+device="iad*-mt*"  device="*" | eval iad_field=if(match(device, "^iad.*"), device, null()) | stats count by iad_field, device | sort iad_field | fields - iad_field | eval iad_field=replace(iad_field, "^iad", "IAD") 
+
+device="pdx*-mt*"  device="*" | eval pdx_field=if(match(device, "^pdx.*"), device, null()) | stats count by pdx_field, device | sort pdx_field | fields - pdx_field | eval pdx_field=replace(pdx_field, "^pdx", "PDX") 
+
+device="dfw*-mt*"  device="*" | eval dfw_field=if(match(device, "^dfw.*"), device, null()) | stats count by dfw_field, device | sort dfw_field | fields - dfw_field | eval dfw_field=replace(dfw_field, "^dfw", "DFW") 
+===================================================
+Search Queries for LT device logs
+
+device="iad*-lt*"  device="*" | eval iad_field=if(match(device, "^iad.*"), device, null()) | stats count by iad_field, device | sort iad_field | fields - iad_field | eval iad_field=replace(iad_field, "^iad", "IAD") 
+
+device="pdx*-lt*"  device="*" | eval pdx_field=if(match(device, "^pdx.*"), device, null()) | stats count by pdx_field, device | sort pdx_field | fields - pdx_field | eval pdx_field=replace(pdx_field, "^pdx", "PDX") 
+
+device="dfw*-lt*"  device="*" | eval dfw_field=if(match(device, "^dfw.*"), device, null()) | stats count by dfw_field, device | sort dfw_field | fields - dfw_field | eval dfw_field=replace(dfw_field, "^dfw", "DFW")
+
+====================================================
+
+Query to COunt errors per hour by device type
+
+index=your_index sourcetype=your_sourcetype (alert OR error OR failed)
+| eval condition_type=case(
+    match(_raw, "alert"), "alert",
+    match(_raw, "error"), "error",
+    match(_raw, "failed"), "failed"
+)
+| bin _time span=1h
+| stats count by _time, device, condition_type
+| timechart span=1h count by device, condition_type
+
+
+====================================================
+
+Query to count errors by description and device
+
+====================================================
+
+Query to count 

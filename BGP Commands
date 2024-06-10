@@ -1,0 +1,49 @@
+BGP Commands
+
+dwallace@atl1-pr01> show bgp summary | match 62.115.44.104
+62.115.44.104          1299        236          1       0       1        6:36 Idle
+
+dwallace@atl1-pr01> show log bgp-trace.3.gz | grep 62.115.44.104    
+Jan 11 22:52:14.594172 BGP RECV 62.115.44.104+34693 -> 62.115.44.105+179
+Jan 11 22:52:14.594314 BGP SEND 62.115.44.105+179 -> 62.115.44.104+34693
+Jan 11 22:52:14.594422 BGP SEND 62.115.44.105+179 -> 62.115.44.104+34693
+
+dwallace@atl1-pr01> show route advertising-protocol bgp 62.115.44.104
+
+
+dwallace@atl1-pr01> show route receive-protocol bgp 62.115.44.104 
+
+inet.0: 929560 destinations, 3586097 routes (926487 active, 2 holddown, 1026663 hidden)
+
+inet.2: 23 destinations, 23 routes (22 active, 0 holddown, 1 hidden)
+
+inet.3: 76 destinations, 76 routes (75 active, 0 holddown, 1 hidden)
+
+iso.0: 1 destinations, 1 routes (1 active, 0 holddown, 0 hidden)
+
+mpls.0: 6 destinations, 6 routes (6 active, 0 holddown, 0 hidden)
+
+inet6.0: 189837 destinations, 964594 routes (186417 active, 7 holddown, 343936 hidden)
+
+inet6.2: 33 destinations, 33 routes (33 active, 0 holddown, 0 hidden)
+
+inet6.3: 139 destinations, 139 routes (139 active, 0 holddown, 0 hidden)
+
+
+"[AE25:B] [TELIA:V] [IC-383834:C] [22726941:X] [TS:T] [1299:A] [NOT-34731:N]"
+
+
+dwallace@atl1-pr01> show bgp summary | match 1299    
+62.115.44.104          1299     366156       1776       0       0    14:23:29 Establ
+213.248.76.154         1299  126880871     308667       0       1 14w6d 9:08:02 Establ
+2001:2000:3080:463::1        1299  108602090     308667       0       1 14w6d 9:07:56 Establ
+2001:2035:0:3b7::1        1299     239819       1763       0       0    14:17:18 Establ
+
+
+ookpako@mad1-pr01> clear bgp neighbor 2001:978:2:12::c3:1
+Cleared 1 connections
+ookpako@mad1-pr01> show bgp summary | match 2001:978:2:12::c3:1
+2001:978:2:12::c3:1         174      46291         24       0       1       10:54 Establ 
+
+ookpako@mad1-pr01> show bgp neighbor 149.6.38.34 | match prefixes
+

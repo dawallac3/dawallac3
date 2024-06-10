@@ -1,0 +1,52 @@
+SFP Collection Playbook
+
+---
+- name: Collect SFP information from Juniper devices
+  hosts: juniper_devices
+  gather_facts: false
+  connection: netconf
+  tasks:
+    - name: Collect SFP information
+      juniper_junos_command:
+        commands:
+          - show chassis hardware
+      register: sfp_output
+
+    - name: Parse SFP information
+      set_fact:
+        sfp_info: >-
+          {{
+            sfp_output.stdout[0].split('\n')
+            | select('match', '^.*Optical diagnostics for.*')
+            | map('regex_search', 'Optical diagnostics for (.+)', '\\1')
+            | list
+            | zip(
+                sfp_output.stdout[0].split('\n')
+                | select('match', '^.*Laser output power.*dBm$')
+                | map('regex_search', 'Laser output power\s+\S+\s+(\S+ dBm)', '\\1')
+                | list
+            )
+            | zip(
+                sfp_output.stdout[0].split('\n')
+                | select('match', '^.*Module temperature.*C$')
+                | map('regex_search', 'Module temperature\s+\S+\s+(\S+ C)', '\\1')
+                | list
+            )
+            | zip(
+                sfp_output.stdout[0].split('\n')
+                | select('match', '^.*Module voltage.*V$')
+                | map('regex_search', 'Module voltage\s+\S+\s+(\S+ V)', '\\1')
+                | list
+            )
+          }}
+
+    - name: Display parsed SFP information
+      debug:
+        msg: "Interface: {{ item.0 }}, Power: {{ item.1 }}, Temperature: {{ item.2 }}, Voltage: {{ item.3 }}"
+      loop: "{{ sfp_info }}"
+
+    - name: Save SFP information to file
+      copy:
+        content: "Interface, Power, Temperature, Voltage\n{% for item in sfp_info %}{{ item.0 }}, {{ item.1 }}, {{ item.2 }}, {{ item.3 }}\n{% endfor %}"
+        dest: /path/to/sfp_info.csv
+      delegate_to: localhost

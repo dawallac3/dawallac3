@@ -1,0 +1,5 @@
+AirGAP QoS Variables
+
+
+ifInRate, ifOutRate, ifInUtilization, ifOutUtilization, ifOutDiscardRate, ifInErrorRate, ifOperStatus, portAggregatorBandwidth, totalDropsRateQueue2,  totalDropsRateQueue1,  totalDropsRateQueue0, txedBitRateQueue0, txedBitRateQueue1, txedBitRateQueue2
+
