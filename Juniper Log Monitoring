@@ -1,0 +1,101 @@
+
+
+Step 1		<<<In operational mode, list the log files on the system.>>>			
+
+dwallace@dfw1-dc01> file list /var/log/                            
+
+/var/log/:
+.snap/
+__policy_names_rpdc__
+__policy_names_rpdn__
+authd_libstats
+authd_profilelib
+authd_sdb.log
+bgp-trace...
+...
+...
+...
+inventory
+isis.log
+...
+wtmp.0.gz
+wtmp.1.gz
+wtmp.2.gz                               
+wtmp.3.gz
+wtmp.4.gz
+=======
+
+Step 2		<<<View the contents of the rlog file of interest file.>>>
+
+dwallace@dfw1-dc01> file show /var/log/isis.log
+
+May  6 19:12:57 trace_on: Tracing to "/var/log/isis.log" started
+May  6 19:12:57.425763 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:12:57.627608     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:12:57.627653     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:12:57.627694     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:12:57.627707     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:13:16.834252 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:39.857385 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858495 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858675 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.060633     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:13:41.060675     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:13:41.060694     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:13:41.060709     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:13:41.424112 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.625890     Address 108.160.175.56 on interface ae4.0 addresses FOUND
+May  6 19:13:41.625936     Address fe80::82ac:acff:fe78:e480 on interface ae4.0 addresses FOUND
+May  6 19:13:41.625952     Address 108.160.175.50 on interface ae3.0 addresses FOUND
+May  6 19:13:41.625970     Address fe80::224e:71ff:fe7d:e5b5 on interface ae3.0 addresses FOUND
+May  6 19:14:06.663204 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:15:06.746635 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.751987 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.752154 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+========
+
+Step 3		<<<file show /var/log/isis.log | match MPLS
+
+dwallace@dfw1-dc01> file show /var/log/isis.log | match MPLS  
+
+May  6 19:12:57.425763 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:16.834252 MPLS LSP default-dfw1-dc01-iad9-di03-3 not configured
+May  6 19:13:39.857385 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858495 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:40.858675 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:13:41.424112 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:14:06.663204 MPLS LSP besteffort-dfw1-dc01-dfw6-di04-3 not configured
+May  6 19:15:06.746635 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.751987 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:07.752154 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:08.427433 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:08.858168 MPLS LSP default-dfw1-dc01-sjc11-dc02-2 not configured
+May  6 19:15:22.925823 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:23.926549 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:23.926683 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:24.423818 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:15:32.514995 MPLS LSP besteffort-dfw1-dc01-pdx4-di04-3 not configured
+May  6 19:18:01.979205 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+May  6 19:18:01.979413 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+May  6 19:18:02.425116 MPLS LSP default-dfw1-dc01-dfw6-di03-1 not configured
+=========
+
+Step 4		<<<Real Time monitoring>>>
+
+dwallace@dfw1-dc01> monitor start isis.log | match MPLS 
+
+{master}
+dwallace@dfw1-dc01> 
+*** isis.log ***
+May  6 20:05:47.903007 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.903415 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.903568 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:05:48.929596 MPLS LSP besteffort-dfw1-dc01-pdx4-di02-2 not configured
+May  6 20:05:49.426169 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:06:01.909951 MPLS LSP besteffort-dfw1-dc01-dfw6-di01-2 not configured
+May  6 20:06:06.631952 MPLS LSP default-dfw1-dc01-iad9-di04-2 not configured
+May  6 20:06:24.470242 MPLS LSP besteffort-dfw1-dc01-pdx1-dc01-2 not configured
+========
+
+Step 5 		<<<Halt the monitor command by pressing Enter and typing monitor stop.>>>
+
