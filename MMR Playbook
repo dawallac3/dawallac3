@@ -1,0 +1,47 @@
+MMR Playbook
+
+---
+- name: Collect and analyze BGP peering data from PR routers
+  hosts: pr_routers
+  gather_facts: no
+  tasks:
+    - name: Initialize the pr_peerings.txt file
+      copy:
+        content: ""
+        dest: /tmp/pr_peerings.txt
+
+    - name: Gather BGP summary data from PR routers
+      shell: |
+        echo "{{ inventory_hostname }}" >> /tmp/pr_peerings.txt
+        ssh {{ inventory_hostname }} 'show bgp summary | except 19679 | except Peer' 2>/dev/null | sort >> /tmp/pr_peerings.txt
+      register: bgp_summary_output
+
+    - name: Aggregate results
+      find:
+        paths: /tmp
+        patterns: "pr_peerings.txt"
+      register: peerings_file
+
+    - name: Read pr_peerings.txt content
+      slurp:
+        src: /tmp/pr_peerings.txt
+      register: peerings_content
+      when: peerings_file.matched > 0
+
+    - name: Calculate IPv4 and IPv6 BGP peer statuses
+      set_fact:
+        peerings_data: "{{ peerings_content.content | b64decode }}"
+        v4_estab: "{{ peerings_data | regex_findall('^.*Estab.*$') | select('match', '[0-9.]+') | list | length }}"
+        v4_down: "{{ peerings_data | regex_findall('^.*(Active|Idle|Connect).*$') | select('match', '[0-9.]+') | list | length }}"
+        v6_estab: "{{ peerings_data | regex_findall('^.*Estab.*$') | select('match', '[0-9a-fA-F]{4}:') | list | length }}"
+        v6_down: "{{ peerings_data | regex_findall('^.*(Active|Idle|Connect).*$') | select('match', '[0-9a-fA-F]{4}:') | list | length }}"
+
+    - name: Print the results
+      debug:
+        msg: |
+          ======= PEERING DATA =======
+          IPv4 Established: {{ v4_estab }}
+          IPv4 Down Peers: {{ v4_down }}
+          IPv6 Established: {{ v6_estab }}
+          IPv6 Down Peers: {{ v6_down }}
+          ============================
